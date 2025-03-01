@@ -1,0 +1,44 @@
+package me.khuni.darinda;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class KhuniDarinda extends JavaPlugin implements CommandExecutor {
+
+    @Override
+    public void onEnable() {
+        getLogger().info(ChatColor.RED + "[Khuni Darinda] Plugin Activated 🔥");
+        getCommand("easyplace").setExecutor(this);
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().info(ChatColor.RED + "[Khuni Darinda] Plugin Deactivated 💀");
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("easyplace")) {
+            if (args.length == 0) {
+                sender.sendMessage(ChatColor.RED + "Use: /easyplace <on/off>");
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("on")) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule maxCommandChainLength 999999");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule sendCommandFeedback false");
+                sender.sendMessage(ChatColor.GREEN + "[Khuni Darinda] Easy Place Mode ENABLED 🔥");
+            }
+
+            if (args[0].equalsIgnoreCase("off")) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule maxCommandChainLength 65536");
+                sender.sendMessage(ChatColor.RED + "[Khuni Darinda] Easy Place Mode DISABLED 💀");
+            }
+        }
+        return false;
+    }
+}
